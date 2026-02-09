@@ -27,12 +27,12 @@ export default function About() {
       
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
         {features.map((feature, index) => (
-          <div key={index} className="group relative rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all hover:-translate-y-2 hover:border-primary/30 hover:bg-white/[0.07]">
+          <div key={index} className="group relative rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-2 hover:border-primary/30 hover:bg-gray-50/50 hover:shadow-md">
             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
               {feature.icon}
             </div>
-            <h3 className="mb-4 text-2xl font-bold text-primary">{feature.title}</h3>
-            <p className="leading-relaxed text-gray-400">{feature.description}</p>
+            <h3 className="mb-4 text-2xl font-bold text-gray-900">{feature.title}</h3>
+            <p className="leading-relaxed text-gray-600">{feature.description}</p>
           </div>
         ))}
       </div>

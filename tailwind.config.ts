@@ -13,14 +13,14 @@ const config: Config = {
         foreground: "var(--foreground)",
         primary: {
           DEFAULT: "#FF9E0B",
-          foreground: "#000000",
+          foreground: "#ffffff",
         },
         accent: {
-          DEFAULT: "#CCFF00",
-          foreground: "#000000",
+          DEFAULT: "#FFF7ED", // orange-50
+          foreground: "#FF9E0B",
         },
-        secondary: "#2C2C2C",
-        surface: "#1a1a1a",
+        secondary: "#f4f4f5",
+        surface: "#fafafa",
       },
       fontFamily: {
         sans: ["var(--font-noto)", "sans-serif"],

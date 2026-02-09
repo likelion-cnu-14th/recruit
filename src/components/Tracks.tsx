@@ -40,12 +40,12 @@ export default function Tracks() {
   return (
     <section className="bg-surface px-6 py-24">
       <h2 className="mb-16 text-center text-4xl font-extrabold tracking-tight">
-        14기 트랙별 역할 <span className="mt-2 block text-xl font-normal text-gray-400">우리의 Vibe</span>
+        14기 트랙별 역할 <span className="mt-2 block text-xl font-normal text-gray-600">우리의 Vibe</span>
       </h2>
       
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-3">
         {tracks.map((track, index) => (
-          <div key={index} className="group relative overflow-hidden rounded-[20px] border border-white/5 bg-background p-10 transition-all hover:-translate-y-2 hover:border-primary hover:shadow-[0_10px_40px_-10px_rgba(255,158,11,0.1)]">
+          <div key={index} className="group relative overflow-hidden glass-panel p-10 transition-all duration-300 hover:-translate-y-2 hover:border-primary/30 hover:shadow-2xl hover:shadow-orange-500/10">
             <div className="mb-8 flex items-start justify-between">
               <div>
                 <span className="mb-2 block text-sm font-semibold uppercase tracking-widest text-primary">{track.role}</span>
@@ -54,13 +54,13 @@ export default function Tracks() {
               <div className="text-accent">{track.icon}</div>
             </div>
             
-            <blockquote className="mb-8 border-l-2 border-primary pl-4 text-lg italic text-gray-400">
+            <blockquote className="mb-8 border-l-2 border-primary pl-4 text-lg italic text-gray-600">
               "{track.quote}"
             </blockquote>
             
             <ul className="space-y-4">
               {track.desc.map((item, i) => (
-                <li key={i} className="relative pl-6 text-sm leading-relaxed text-[#d1d1d1]">
+                <li key={i} className="relative pl-6 text-sm leading-relaxed text-gray-600">
                   <span className="absolute left-0 font-bold text-primary">•</span>
                   {item}
                 </li>

@@ -32,10 +32,10 @@ export default function Benefits() {
       
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {benefits.map((benefit, index) => (
-          <div key={index} className="group rounded-2xl border border-primary/10 bg-primary/5 p-8 text-center transition-all hover:-translate-y-1 hover:bg-primary/10">
+          <div key={index} className="group glass-panel p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 hover:border-primary/30">
             <div className="mb-6 flex justify-center text-primary">{benefit.icon}</div>
             <h3 className="mb-3 text-xl font-bold">{benefit.title}</h3>
-            <p className="text-sm leading-relaxed text-gray-400">{benefit.desc}</p>
+            <p className="text-sm leading-relaxed text-gray-600">{benefit.desc}</p>
           </div>
         ))}
       </div>

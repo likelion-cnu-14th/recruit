@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-black px-6 py-24 text-center">
+    <footer className="border-t border-gray-200 bg-surface px-6 py-24 text-center">
       <h2 className="mb-12 text-3xl font-extrabold leading-snug md:text-5xl">
         "완벽을 기다리지 마세요.<br />
         일단 배포하고 시작하는 게<br />
@@ -14,14 +14,14 @@ export default function Footer() {
         지금 바로 지원하기 <ArrowRight size={24} className="ml-3" />
       </Link>
       
-      <div className="mb-8 flex justify-center gap-8 text-sm text-gray-400">
+      <div className="mb-8 flex justify-center gap-8 text-sm text-gray-600">
         <a href="https://instagram.com/likelion._.cnu" target="_blank" rel="noopener noreferrer" className="flex items-center transition-colors hover:text-primary hover:underline">
           <Instagram size={20} className="mr-2" />
           @likelion._.cnu
         </a>
       </div>
       
-      <div className="mt-8 text-xs text-[#555]">
+      <div className="mt-8 text-xs text-gray-500">
         © 2026 LikeLion CNU 14th. All rights reserved.
       </div>
     </footer>

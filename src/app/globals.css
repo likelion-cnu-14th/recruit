@@ -4,15 +4,24 @@
 
 @layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
     --font-noto: 'Noto Sans KR', sans-serif;
   }
 }
 
+body {
+  @apply bg-background text-foreground font-sans antialiased overflow-x-hidden relative;
+  background-image: 
+    radial-gradient(#e5e7eb 1px, transparent 1px),
+    linear-gradient(to bottom right, #fff7ed 0%, #ffffff 50%, #fff7ed 100%);
+  background-size: 24px 24px, 100% 100%;
+  background-attachment: fixed;
+}
+
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-gray-900 to-gray-600;
   }
   
   .text-gradient-primary {
@@ -20,14 +29,10 @@
   }
 
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-lg ring-1 ring-black/5;
   }
   
   .glass-panel {
-    @apply bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-xl;
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl ring-1 ring-black/5;
   }
-}
-
-body {
-  @apply bg-background text-foreground font-sans antialiased overflow-x-hidden;
 }
