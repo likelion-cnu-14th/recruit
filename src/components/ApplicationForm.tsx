@@ -25,10 +25,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { motion } from "framer-motion";
+import { 
+  Palette, 
+  Code, 
+  Server, 
+  MessageSquare, 
+  MoreHorizontal,
+  CheckCircle2,
+  Trophy,
+  Users,
+  Target,
+  Rocket
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   // Section 1: Part Selection
-  part: z.enum(["plan", "design", "frontend", "backend", "other"] as const),
+  part: z.enum(["plan_design", "frontend", "backend"] as const),
   partReason: z.string().min(10, {
     message: "10자 이상 작성해주세요.",
   }).max(500, {
@@ -59,8 +73,14 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "이름을 입력해주세요.",
   }),
-  studentId: z.string().min(1, {
+  major: z.string().min(1, {
      message: "소속 학과를 입력해주세요.",
+  }),
+  studentNumber: z.string().min(1, {
+     message: "학번을 입력해주세요.",
+  }),
+  grade: z.string().min(1, {
+     message: "학년을 입력해주세요.",
   }),
   phone: z.string().regex(/^010-\d{4}-\d{4}$/, {
     message: "010-0000-0000 형식으로 입력해주세요.",
@@ -69,10 +89,6 @@ const formSchema = z.object({
     message: "올바른 이메일 주소를 입력해주세요.",
   }),
 
-  // Section 5: Consent
-  privacyConsent: z.string().regex(/^yes$/, {
-    message: "개인정보 수집에 동의해야 지원이 가능합니다.",
-  }),
 });
 
 export default function ApplicationForm() {
@@ -85,10 +101,11 @@ export default function ApplicationForm() {
       motivationGoals: [],
       motivationEssay: "",
       name: "",
-      studentId: "",
+      major: "",
+      studentNumber: "",
+      grade: "",
       phone: "",
       email: "",
-      privacyConsent: "", // Initialize with empty string
     },
   });
 
@@ -97,352 +114,369 @@ export default function ApplicationForm() {
     alert("지원서가 제출되었습니다! (콘솔 확인)");
   }
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Section 1: Part Selection */}
-        <Card className="border-gray-200 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-gray-900">활동 희망 파트</CardTitle>
-            <CardDescription className="text-gray-500">어느 파트에 지원하시나요?</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <FormField
-              control={form.control}
-              name="part"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="plan" />
-                        </FormControl>
-                        <FormLabel className="font-normal text-gray-700">기획 파트</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="design" />
-                        </FormControl>
-                        <FormLabel className="font-normal text-gray-700">디자인 파트</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="frontend" />
-                        </FormControl>
-                        <FormLabel className="font-normal text-gray-700">프론트엔드 파트</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="backend" />
-                        </FormControl>
-                        <FormLabel className="font-normal text-gray-700">백엔드 파트</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="other" />
-                        </FormControl>
-                        <FormLabel className="font-normal text-gray-700">기타</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="partReason"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-900">선택한 파트와 관련하여 이전 경험과 앞으로 기대하는 성장을 작성해 주세요. (500자 이내)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="자유롭게 작성해주세요"
-                      className="resize-none bg-white border-gray-200 text-gray-900 min-h-[100px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
 
-        {/* Section 2: Collaboration */}
-        <Card className="border-gray-200 bg-white shadow-sm">
-           <CardHeader>
-            <CardTitle className="text-gray-900">협업 경험</CardTitle>
-            <CardDescription className="text-gray-500">경험이 있는 활동을 모두 체크해 주세요.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <FormField
-              control={form.control}
-              name="collaborationExperience"
-              render={() => (
-                <FormItem>
-                  {[
-                    { id: "club_member", label: "동아리/커뮤니티 부원 활동" },
-                    { id: "club_lead", label: "동아리/커뮤니티 운영 활동" },
-                    { id: "study", label: "스터디/학회 참여" },
-                    { id: "tutoring", label: "과외" },
-                  ].map((item) => (
-                    <FormField
-                      key={item.id}
-                      control={form.control}
-                      name="collaborationExperience"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={item.id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(item.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, item.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== item.id
-                                        )
-                                      )
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal text-gray-700">
-                              {item.label}
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      }}
-                    />
-                  ))}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={form.control}
-              name="collaborationEssay"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-900">
-                    멋사대학은 협업과 팀워크를 중요한 가치로 생각하는 공동체입니다. 어떤 협업 경험이 있는지, 해당 경험에서 얻은 가치를 이 동아리에 어떻게 적용시켜 볼 수 있을지 작성해 주세요. (500자 이내)
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                       placeholder="경험을 구체적으로 작성해주세요"
-                      className="resize-none bg-white border-gray-200 text-gray-900 min-h-[100px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
-
-        {/* Section 3: Motivation */}
-        <Card className="border-gray-200 bg-white shadow-sm">
-           <CardHeader>
-            <CardTitle className="text-gray-900">지원 동기</CardTitle>
-            <CardDescription className="text-gray-500">멋사대학을 통해 얻고 싶은 가치를 선택해주세요 (최대 2개)</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <FormField
-              control={form.control}
-              name="motivationGoals"
-              render={() => (
-                <FormItem>
-                  {[
-                    { id: "service", label: "실제 서비스 제작" },
-                    { id: "community", label: "협업 및 학습 커뮤니티 구축" },
-                    { id: "hackathon", label: "해커톤/프로젝트 경험" },
-                    { id: "portfolio", label: "포트폴리오 등 취업 준비" },
-                    { id: "startup", label: "창업에 대한 관심" },
-                    { id: "network", label: "전국 네트워크 형성" },
-                  ].map((item) => (
-                    <FormField
-                      key={item.id}
-                      control={form.control}
-                      name="motivationGoals"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={item.id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(item.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, item.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== item.id
-                                        )
-                                      )
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal text-gray-700">
-                              {item.label}
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      }}
-                    />
-                  ))}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={form.control}
-              name="motivationEssay"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-900">
-                    멋사대학과 함께 하고 싶은 이유는 무엇인가요? 위 질문에 대한 답변을 토대로 기대하는 활동, 추구하는 가치, 성장하고 싶은 의지 등 지원 동기를 자세하게 알려주세요.
-                  </FormLabel>
-                   <FormControl>
-                    <Textarea
-                       placeholder="진정성 있는 답변 부탁드립니다"
-                      className="resize-none bg-white border-gray-200 text-gray-900 min-h-[150px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
-
-        {/* Section 4: Personal Info */}
-         <Card className="border-gray-200 bg-white shadow-sm">
-           <CardHeader>
-            <CardTitle className="text-gray-900">개인 정보</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-900">이름</FormLabel>
-                  <FormControl>
-                    <Input placeholder="홍길동" className="bg-white border-gray-200 text-gray-900" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="studentId"
-              render={({ field }) => (
-                 <FormItem>
-                  <FormLabel className="text-gray-900">소속 학과</FormLabel>
-                  <FormDescription className="text-gray-500 text-xs">복수/부/심화 전공도 함께 적어주세요. (예: 경영학과/컴퓨터공학과)</FormDescription>
-                  <FormControl>
-                    <Input placeholder="컴퓨터공학과" className="bg-white border-gray-200 text-gray-900" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                 <FormItem>
-                  <FormLabel className="text-gray-900">핸드폰 번호</FormLabel>
-                  <FormControl>
-                    <Input placeholder="010-0000-0000" className="bg-white border-gray-200 text-gray-900" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                 <FormItem>
-                  <FormLabel className="text-gray-900">개인 이메일 주소</FormLabel>
-                   <FormDescription className="text-gray-500 text-xs">학교 이메일이 아닌 개인적으로 활용하는 이메일 주소를 작성해 주세요!</FormDescription>
-                  <FormControl>
-                    <Input placeholder="likelion@example.com" className="bg-white border-gray-200 text-gray-900" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
-
-        {/* Section 5: Consent */}
-        <Card className="border-gray-200 bg-white shadow-sm">
-           <CardHeader>
-            <CardTitle className="text-gray-900">개인정보 수집 동의</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="h-40 overflow-y-auto rounded-md border border-gray-200 bg-gray-50 p-4 text-xs text-gray-600 space-y-2">
-                <p><strong>[개인정보 수집·이용 동의서]</strong></p>
-                <p>주식회사 멋쟁이 사자처럼은 「정보통신망 이용촉진 및 정보보호에 관한 법률」 및 「개인정보보호법」 등 관련 법령상의 개인정보보호 규정을 준수하여...</p>
-                <p>(중략 - 제공된 개인정보 처리방침 전문)</p>
-                <p><strong>가. 개인 정보의 수집· 이용에 관한 사항</strong></p>
-                <p>수집 항목: 성명, 연락처, 이메일, 소속 등</p>
-                <p>보유 기간: 사업종료 이후 5년간 보존</p>
-                <p><strong>나. 개인 정보 제3자 제공에 관한 사항</strong></p>
-                <p>제공받는 자: 주식회사 멋쟁이사자처럼</p>
+        {/* Section 1: Personal Info */}
+        <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+               <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">1</span>
+                개인 정보
+              </CardTitle>
             </div>
-             <FormField
-              control={form.control}
-              name="privacyConsent"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="text-gray-900">개인정보 수집에 동의하십니까?</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="yes" />
-                        </FormControl>
-                        <FormLabel className="font-normal text-gray-700">예</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="no" />
-                        </FormControl>
-                        <FormLabel className="font-normal text-gray-700">아니오</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+            <CardContent className="p-6 md:p-8 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">이름</FormLabel>
+                      <FormControl>
+                        <Input placeholder="홍길동" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="major"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">학과</FormLabel>
+                      <FormControl>
+                        <Input placeholder="컴퓨터공학과" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="studentNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">학번</FormLabel>
+                      <FormControl>
+                        <Input placeholder="202400000" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="grade"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">학년</FormLabel>
+                      <FormControl>
+                        <Input placeholder="3학년" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">연락처</FormLabel>
+                      <FormControl>
+                        <Input placeholder="010-0000-0000" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">이메일</FormLabel>
+                      <FormControl>
+                        <Input placeholder="name@example.com" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+        
+        {/* Section 2: Part Selection */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">2</span>
+                활동 희망 파트
+              </CardTitle>
+              <CardDescription className="text-gray-500 mt-2 ml-11">
+                가장 열정적으로 참여할 수 있는 파트를 선택해주세요.
+              </CardDescription>
+            </div>
+            <CardContent className="p-6 md:p-8 space-y-8">
+              <FormField
+                control={form.control}
+                name="part"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                      >
+                        {[
+                          { value: "plan_design", label: "기획/디자인", icon: MessageSquare, desc: "서비스 기획 및 UI/UX 디자인" },
+                          { value: "frontend", label: "프론트엔드", icon: Code, desc: "웹 클라이언트 개발" },
+                          { value: "backend", label: "백엔드", icon: Server, desc: "서버 및 인프라 구축" },
+                        ].map((item) => (
+                          <FormItem key={item.value} className="space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value={item.value} className="peer sr-only" />
+                            </FormControl>
+                            <FormLabel className="flex items-center p-4 border-2 border-gray-100 rounded-xl cursor-pointer transition-all hover:bg-orange-50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-orange-50/50">
+                              <div className={cn(
+                                "w-10 h-10 rounded-lg flex items-center justify-center mr-4 transition-colors",
+                                field.value === item.value ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
+                              )}>
+                                <item.icon size={20} />
+                              </div>
+                              <div className="flex-1">
+                                <div className="font-bold text-gray-900">{item.label}</div>
+                                <div className="text-xs text-gray-500">{item.desc}</div>
+                              </div>
+                              <div className={cn(
+                                "w-4 h-4 rounded-full border-2 flex items-center justify-center",
+                                field.value === item.value ? "border-primary" : "border-gray-300"
+                              )}>
+                                {field.value === item.value && <div className="w-2 h-2 rounded-full bg-primary" />}
+                              </div>
+                            </FormLabel>
+                          </FormItem>
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="partReason"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-900 font-semibold text-base">선택 이유 및 성장 기대 (500자 이내)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="이 파트를 선택한 이유와 활동을 통해 얻고 싶은 성장에 대해 이야기해주세요."
+                        className="min-h-[150px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
 
-        <Button type="submit" size="lg" className="w-full bg-[#FF9E0B] hover:bg-[#FF9E0B]/90 text-white font-bold text-lg">
-          지원하기
-        </Button>
+        {/* Section 3: Collaboration */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">3</span>
+                협업 경험
+              </CardTitle>
+            </div>
+            <CardContent className="p-6 md:p-8 space-y-8">
+              <FormField
+                control={form.control}
+                name="collaborationExperience"
+                render={() => (
+                  <FormItem>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {[
+                        { id: "club_member", label: "동아리/커뮤니티 부원 활동" },
+                        { id: "club_lead", label: "동아리/커뮤니티 운영 활동" },
+                        { id: "study", label: "스터디/학회 참여" },
+                        { id: "tutoring", label: "과외/멘토링 경험" },
+                      ].map((item) => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="collaborationExperience"
+                          render={({ field }) => {
+                            const isChecked = field.value?.includes(item.id);
+                            return (
+                              <FormItem key={item.id} className="space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={isChecked}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item.id])
+                                        : field.onChange(field.value?.filter((value) => value !== item.id));
+                                    }}
+                                    className="peer sr-only"
+                                  />
+                                </FormControl>
+                                <FormLabel className={cn(
+                                  "flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-orange-50",
+                                  isChecked ? "border-primary bg-orange-50/50" : "border-gray-100 bg-white"
+                                )}>
+                                  <div className={cn(
+                                    "w-5 h-5 rounded border mr-3 flex items-center justify-center transition-colors",
+                                    isChecked ? "bg-primary border-primary text-white" : "border-gray-300"
+                                  )}>
+                                    {isChecked && <CheckCircle2 size={14} />}
+                                  </div>
+                                  <span className={cn("font-medium", isChecked ? "text-primary" : "text-gray-600")}>
+                                    {item.label}
+                                  </span>
+                                </FormLabel>
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="collaborationEssay"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-900 font-semibold text-base">협업 경험 에세이 (500자 이내)</FormLabel>
+                    <p className="text-sm text-gray-500 mb-3">협업 과정에서의 역할과 배운 점을 멋쟁이사자처럼 활동에 어떻게 적용할 수 있을까요?</p>
+                    <FormControl>
+                      <Textarea
+                        placeholder="구체적인 경험을 바탕으로 작성해주세요."
+                        className="min-h-[150px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Section 4: Motivation */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">4</span>
+                지원 동기 및 목표
+              </CardTitle>
+            </div>
+            <CardContent className="p-6 md:p-8 space-y-8">
+              <FormField
+                control={form.control}
+                name="motivationGoals"
+                render={() => (
+                  <FormItem>
+                    <FormLabel className="text-gray-900 font-semibold mb-4 block">얻어가고 싶은 가치 (최대 2개 선택)</FormLabel>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                      {[
+                        { id: "service", label: "나만의 서비스 제작" },
+                        { id: "community", label: "개발자 커뮤니티" },
+                        { id: "hackathon", label: "해커톤 경험" },
+                        { id: "portfolio", label: "포트폴리오 완성" },
+                        { id: "startup", label: "창업 도전" },
+                        { id: "network", label: "전국 네트워크" },
+                      ].map((item) => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="motivationGoals"
+                          render={({ field }) => {
+                            const isChecked = field.value?.includes(item.id);
+                            return (
+                              <FormItem key={item.id} className="space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={isChecked}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item.id])
+                                        : field.onChange(field.value?.filter((value) => value !== item.id));
+                                    }}
+                                    className="peer sr-only"
+                                  />
+                                </FormControl>
+                                <FormLabel className={cn(
+                                  "flex flex-col items-center justify-center p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-orange-50 h-full text-center",
+                                  isChecked ? "border-primary bg-orange-50/50" : "border-gray-100 bg-white"
+                                )}>
+                                  <span className={cn("font-bold transition-colors", isChecked ? "text-primary" : "text-gray-600")}>
+                                    {item.label}
+                                  </span>
+                                </FormLabel>
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="motivationEssay"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-900 font-semibold text-base">지원 동기 에세이</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="진정성 있는 이야기를 들려주세요."
+                        className="min-h-[200px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="sticky bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 shadow-lg z-50 flex justify-center -mx-4 md:static md:bg-transparent md:border-t-0 md:shadow-none md:p-0 md:mx-0"
+        >
+          <Button type="submit" size="lg" className="w-full md:w-auto md:min-w-[300px] h-14 text-xl font-bold bg-gradient-to-r from-[#FF9E0B] to-[#FF5F0B] hover:shadow-lg hover:shadow-orange-500/30 transition-all rounded-full">
+            지원서 제출하기 <Rocket className="ml-2 w-5 h-5" />
+          </Button>
+        </motion.div>
       </form>
     </Form>
   );
