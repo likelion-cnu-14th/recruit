@@ -5,23 +5,45 @@ import Benefits from '@/components/Benefits';
 import Schedule from '@/components/Schedule';
 import Footer from '@/components/Footer';
 import FadeIn from '@/components/FadeIn';
+import Navbar from '@/components/Navbar';
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative">
+      <Navbar /> {/* Navigation Bar */}
+      
+      {/* Hero Section */}
       <Hero />
-      <FadeIn>
-        <About />
-      </FadeIn>
-      <FadeIn>
-        <Tracks />
-      </FadeIn>
-      <FadeIn>
-        <Benefits />
-      </FadeIn>
-      <FadeIn>
-        <Schedule />
-      </FadeIn>
+
+      {/* About Section */}
+      <div id="about" className="scroll-mt-20">
+        <FadeIn>
+          <About />
+        </FadeIn>
+      </div>
+
+      {/* Tracks Section */}
+      <div id="tracks" className="scroll-mt-20">
+        <FadeIn>
+          <Tracks />
+        </FadeIn>
+      </div>
+
+      {/* Benefits Section */}
+      <div id="benefits" className="scroll-mt-20">
+        <FadeIn>
+          <Benefits />
+        </FadeIn>
+      </div>
+
+      {/* Schedule Section */}
+      <div id="schedule" className="scroll-mt-20">
+        <FadeIn>
+          <Schedule />
+        </FadeIn>
+      </div>
+
+      {/* Footer */}
       <FadeIn delay={0.2}>
         <Footer />
       </FadeIn>
