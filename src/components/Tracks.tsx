@@ -1,4 +1,3 @@
-import styles from './Tracks.module.css';
 import { Palette, Code, Server } from 'lucide-react';
 
 export default function Tracks() {
@@ -39,29 +38,32 @@ export default function Tracks() {
   ];
 
   return (
-    <section className={styles.section}>
-      <h2 className={styles.title}>
-        14기 트랙별 역할 <span className="text-gradient" style={{ display: 'block', fontSize: '1.25rem', marginTop: '0.5rem', fontWeight: 400 }}>우리의 Vibe</span>
+    <section className="bg-surface px-6 py-24">
+      <h2 className="mb-16 text-center text-4xl font-extrabold tracking-tight">
+        14기 트랙별 역할 <span className="mt-2 block text-xl font-normal text-gray-400">우리의 Vibe</span>
       </h2>
       
-      <div className={styles.grid}>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-3">
         {tracks.map((track, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.cardHeader}>
+          <div key={index} className="group relative overflow-hidden rounded-[20px] border border-white/5 bg-background p-10 transition-all hover:-translate-y-2 hover:border-primary hover:shadow-[0_10px_40px_-10px_rgba(255,158,11,0.1)]">
+            <div className="mb-8 flex items-start justify-between">
               <div>
-                <span className={styles.role}>{track.role}</span>
-                <h3 className={styles.cardTitle}>{track.title}</h3>
+                <span className="mb-2 block text-sm font-semibold uppercase tracking-widest text-primary">{track.role}</span>
+                <h3 className="text-3xl font-bold">{track.title}</h3>
               </div>
-              <div className={styles.icon}>{track.icon}</div>
+              <div className="text-accent">{track.icon}</div>
             </div>
             
-            <blockquote className={styles.quote}>
+            <blockquote className="mb-8 border-l-2 border-primary pl-4 text-lg italic text-gray-400">
               "{track.quote}"
             </blockquote>
             
-            <ul className={styles.list}>
+            <ul className="space-y-4">
               {track.desc.map((item, i) => (
-                <li key={i} className={styles.listItem}>{item}</li>
+                <li key={i} className="relative pl-6 text-sm leading-relaxed text-[#d1d1d1]">
+                  <span className="absolute left-0 font-bold text-primary">•</span>
+                  {item}
+                </li>
               ))}
             </ul>
           </div>

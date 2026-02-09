@@ -1,4 +1,3 @@
-import styles from './Benefits.module.css';
 import { BookOpen, Coins, Trophy, Users } from 'lucide-react';
 
 export default function Benefits() {
@@ -26,17 +25,17 @@ export default function Benefits() {
   ];
 
   return (
-    <section className={styles.section}>
-      <h2 className={styles.title}>
-        14기 정예 사자만을 위한 <span className="text-gradient-primary">혜택</span>
+    <section className="bg-background px-6 py-24">
+      <h2 className="mb-16 text-center text-4xl font-extrabold tracking-tight">
+        14기 정예 사자만을 위한 <span className="bg-gradient-to-br from-[#FF9E0B] to-[#FF5F0B] bg-clip-text text-transparent">혜택</span>
       </h2>
       
-      <div className={styles.grid}>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {benefits.map((benefit, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.icon}>{benefit.icon}</div>
-            <h3 className={styles.cardTitle}>{benefit.title}</h3>
-            <p className={styles.cardDesc}>{benefit.desc}</p>
+          <div key={index} className="group rounded-2xl border border-primary/10 bg-primary/5 p-8 text-center transition-all hover:-translate-y-1 hover:bg-primary/10">
+            <div className="mb-6 flex justify-center text-primary">{benefit.icon}</div>
+            <h3 className="mb-3 text-xl font-bold">{benefit.title}</h3>
+            <p className="text-sm leading-relaxed text-gray-400">{benefit.desc}</p>
           </div>
         ))}
       </div>

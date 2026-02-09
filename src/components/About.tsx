@@ -1,4 +1,3 @@
-import styles from './About.module.css';
 import { Zap, Database, Rocket } from 'lucide-react';
 
 export default function About() {
@@ -21,19 +20,19 @@ export default function About() {
   ];
 
   return (
-    <section className={styles.section}>
-      <h2 className={styles.title}>
-        14기 멋사, <span className="text-gradient-primary">무엇이 다른가요?</span>
+    <section className="bg-background px-6 py-24">
+      <h2 className="mb-16 text-center text-4xl font-extrabold tracking-tight">
+        14기 멋사, <span className="bg-gradient-to-br from-[#FF9E0B] to-[#FF5F0B] bg-clip-text text-transparent">무엇이 다른가요?</span>
       </h2>
       
-      <div className={styles.grid}>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
         {features.map((feature, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.iconWrapper}>
+          <div key={index} className="group relative rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all hover:-translate-y-2 hover:border-primary/30 hover:bg-white/[0.07]">
+            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
               {feature.icon}
             </div>
-            <h3 className={styles.cardTitle}>{feature.title}</h3>
-            <p className={styles.cardDesc}>{feature.description}</p>
+            <h3 className="mb-4 text-2xl font-bold text-primary">{feature.title}</h3>
+            <p className="leading-relaxed text-gray-400">{feature.description}</p>
           </div>
         ))}
       </div>

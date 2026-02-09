@@ -1,5 +1,3 @@
-import styles from './Schedule.module.css';
-
 export default function Schedule() {
   const events = [
     {
@@ -25,17 +23,20 @@ export default function Schedule() {
   ];
 
   return (
-    <section className={styles.section}>
-      <h2 className={styles.title}>모집 일정</h2>
+    <section className="bg-surface px-6 py-24 text-center">
+      <h2 className="mb-16 text-4xl font-extrabold tracking-tight">모집 일정</h2>
       
-      <div className={styles.timeline}>
+      <div className="relative mx-auto max-w-3xl px-4 py-8 before:absolute before:bottom-0 before:left-8 before:top-0 before:w-0.5 before:bg-white/10 md:before:left-1/2 md:before:-translate-x-1/2">
         {events.map((event, index) => (
-          <div key={index} className={styles.item}>
-            <div className={styles.dot}></div>
-            <div className={styles.content}>
-              <div className={styles.date}>{event.date}</div>
-              <div className={styles.event}>{event.title}</div>
-              <div className={styles.desc}>{event.desc}</div>
+          <div key={index} className={`mb-12 flex flex-col items-start md:flex-row md:items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+            <div className="absolute left-8 z-10 h-4 w-4 -translate-x-1/2 rounded-full bg-primary shadow-[0_0_0_4px_rgba(255,158,11,0.2)] md:left-1/2"></div>
+            
+            <div className={`w-full pl-12 md:w-1/2 md:pl-0 ${index % 2 === 0 ? 'md:pl-12 text-left' : 'md:pr-12 md:text-right'}`}>
+              <div className="glass-panel p-6 shadow-lg transition-transform hover:-translate-y-1">
+                <div className="mb-2 text-lg font-bold text-primary">{event.date}</div>
+                <div className="mb-1 text-xl font-bold">{event.title}</div>
+                <div className="text-sm text-gray-400">{event.desc}</div>
+              </div>
             </div>
           </div>
         ))}
