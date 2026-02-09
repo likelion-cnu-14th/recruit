@@ -1,4 +1,5 @@
 import { Instagram, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -9,9 +10,9 @@ export default function Footer() {
         <span className="bg-gradient-to-br from-[#FF9E0B] to-[#FF5F0B] bg-clip-text text-transparent">우리의 Vibe입니다.</span>"
       </h2>
       
-      <a href="https://forms.google.com/placeholder" target="_blank" rel="noopener noreferrer" className="mb-16 inline-flex transform items-center rounded-full bg-primary px-10 py-5 text-xl font-bold text-black shadow-[0_4px_20px_rgba(255,158,11,0.3)] transition-all hover:-translate-y-1 hover:bg-[#ffaa2b] hover:shadow-[0_8px_30px_rgba(255,158,11,0.5)]">
+      <Link href="/apply" className="mb-16 inline-flex transform items-center rounded-full bg-primary px-10 py-5 text-xl font-bold text-black shadow-[0_4px_20px_rgba(255,158,11,0.3)] transition-all hover:-translate-y-1 hover:bg-[#ffaa2b] hover:shadow-[0_8px_30px_rgba(255,158,11,0.5)]">
         지금 바로 지원하기 <ArrowRight size={24} className="ml-3" />
-      </a>
+      </Link>
       
       <div className="mb-8 flex justify-center gap-8 text-sm text-gray-400">
         <a href="https://instagram.com/likelion._.cnu" target="_blank" rel="noopener noreferrer" className="flex items-center transition-colors hover:text-primary hover:underline">

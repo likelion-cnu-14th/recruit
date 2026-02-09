@@ -1,4 +1,5 @@
 import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -19,9 +20,9 @@ export default function Hero() {
         최신 AI 도구로 완성하는 압도적인 생산성을 경험하세요.
       </p>
       
-      <a href="https://forms.google.com/placeholder" target="_blank" rel="noopener noreferrer" className="inline-flex transform items-center rounded-full bg-primary px-8 py-4 text-lg font-bold text-black shadow-[0_4px_20px_rgba(255,158,11,0.3)] transition-all hover:-translate-y-1 hover:bg-[#ffaa2b] hover:shadow-[0_8px_30px_rgba(255,158,11,0.5)]">
+      <Link href="/apply" className="inline-flex transform items-center rounded-full bg-primary px-8 py-4 text-lg font-bold text-black shadow-[0_4px_20px_rgba(255,158,11,0.3)] transition-all hover:-translate-y-1 hover:bg-[#ffaa2b] hover:shadow-[0_8px_30px_rgba(255,158,11,0.5)]">
         14기 아기사자 지원하기 <ArrowRight size={20} className="ml-2" />
-      </a>
+      </Link>
     </section>
   );
 }
