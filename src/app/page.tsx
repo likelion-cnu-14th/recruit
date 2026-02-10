@@ -2,7 +2,8 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Tracks from '@/components/Tracks';
 import Benefits from '@/components/Benefits';
-import Schedule from '@/components/Schedule';
+
+import ActivityTimeline from '@/components/ActivityTimeline';
 import Footer from '@/components/Footer';
 import FadeIn from '@/components/FadeIn';
 import Navbar from '@/components/Navbar';
@@ -36,12 +37,14 @@ export default function Home() {
         </FadeIn>
       </div>
 
-      {/* Schedule Section */}
-      <div id="schedule" className="scroll-mt-20">
+      {/* Activity Timeline Section */}
+      <div id="activity" className="scroll-mt-20">
         <FadeIn>
-          <Schedule />
+          <ActivityTimeline />
         </FadeIn>
       </div>
+
+
 
       {/* Footer */}
       <FadeIn delay={0.2}>

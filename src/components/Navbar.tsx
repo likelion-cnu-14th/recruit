@@ -11,7 +11,7 @@ const navItems = [
   { name: "소개", href: "#about" },
   { name: "트랙", href: "#tracks" },
   { name: "혜택", href: "#benefits" },
-  { name: "일정", href: "#schedule" },
+  { name: "활동", href: "#activity" },
 ];
 
 export default function Navbar() {
