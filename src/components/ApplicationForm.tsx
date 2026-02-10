@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { applicationFormSchema, type ApplicationFormData } from "@/lib/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -40,60 +41,16 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
-  // Section 1: Part Selection
-  part: z.enum(["plan_design", "frontend", "backend"] as const),
-  partReason: z.string().min(10, {
-    message: "10자 이상 작성해주세요.",
-  }).max(500, {
-    message: "500자 이내로 작성해주세요.",
-  }),
-
-  // Section 2: Collaboration Experience
-  collaborationExperience: z.array(z.string()).refine((value) => value.length > 0, {
-    message: "최소 1개 이상의 협업 경험을 선택해주세요.",
-  }),
-  collaborationEssay: z.string().min(10, {
-    message: "10자 이상 작성해주세요.",
-  }).max(500, {
-    message: "500자 이내로 작성해주세요.",
-  }),
-
-  // Section 3: Motivation
-  motivationGoals: z.array(z.string()).refine((value) => value.length > 0, {
-    message: "최소 1개 이상의 목표를 선택해주세요.",
-  }).refine((value) => value.length <= 2, {
-    message: "최대 2개까지만 선택할 수 있어요.",
-  }),
-  motivationEssay: z.string().min(10, {
-    message: "지원 동기를 자세히 적어주세요.",
-  }),
-
-  // Section 4: Personal Info
-  name: z.string().min(2, {
-    message: "이름을 입력해주세요.",
-  }),
-  major: z.string().min(1, {
-     message: "소속 학과를 입력해주세요.",
-  }),
-  studentNumber: z.string().min(1, {
-     message: "학번을 입력해주세요.",
-  }),
-  grade: z.string().min(1, {
-     message: "학년을 입력해주세요.",
-  }),
-  phone: z.string().regex(/^010-\d{4}-\d{4}$/, {
-    message: "010-0000-0000 형식으로 입력해주세요.",
-  }),
-  email: z.string().email({
-    message: "올바른 이메일 주소를 입력해주세요.",
-  }),
-
-});
 
 export default function ApplicationForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
+
+  const form = useForm<ApplicationFormData>({
+    resolver: zodResolver(applicationFormSchema),
     defaultValues: {
       partReason: "",
       collaborationExperience: [],
@@ -109,9 +66,41 @@ export default function ApplicationForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    alert("지원서가 제출되었습니다! (콘솔 확인)");
+  async function onSubmit(values: ApplicationFormData) {
+    setIsSubmitting(true);
+    setSubmitResult(null);
+
+    try {
+      const response = await fetch("/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        setSubmitResult({
+          success: false,
+          message: result.message || "제출 중 오류가 발생했습니다.",
+        });
+        return;
+      }
+
+      setSubmitResult({
+        success: true,
+        message: result.message,
+      });
+
+      form.reset();
+    } catch {
+      setSubmitResult({
+        success: false,
+        message: "네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const fadeInUp = {
@@ -467,14 +456,46 @@ export default function ApplicationForm() {
           </Card>
         </motion.div>
 
-        <motion.div 
+        {submitResult && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={cn(
+              "p-4 rounded-xl text-center font-medium",
+              submitResult.success
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : "bg-red-50 text-red-700 border border-red-200"
+            )}
+          >
+            {submitResult.message}
+          </motion.div>
+        )}
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="sticky bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 shadow-lg z-50 flex justify-center -mx-4 md:static md:bg-transparent md:border-t-0 md:shadow-none md:p-0 md:mx-0"
         >
-          <Button type="submit" size="lg" className="w-full md:w-auto md:min-w-[300px] h-14 text-xl font-bold bg-gradient-to-r from-[#FF9E0B] to-[#FF5F0B] hover:shadow-lg hover:shadow-orange-500/30 transition-all rounded-full">
-            지원서 제출하기 <Rocket className="ml-2 w-5 h-5" />
+          <Button
+            type="submit"
+            size="lg"
+            disabled={isSubmitting}
+            className="w-full md:w-auto md:min-w-[300px] h-14 text-xl font-bold bg-gradient-to-r from-[#FF9E0B] to-[#FF5F0B] hover:shadow-lg hover:shadow-orange-500/30 transition-all rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? (
+              <>
+                제출 중...
+                <svg className="ml-2 w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+                  <path d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" fill="currentColor" className="opacity-75" />
+                </svg>
+              </>
+            ) : (
+              <>
+                지원서 제출하기 <Rocket className="ml-2 w-5 h-5" />
+              </>
+            )}
           </Button>
         </motion.div>
       </form>
