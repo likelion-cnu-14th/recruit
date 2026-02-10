@@ -1,24 +1,14 @@
-import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import ApplicationForm from "@/components/ApplicationForm";
+import ApplyNavbar from "@/components/ApplyNavbar";
 
 export default function ApplyPage() {
   return (
-    <main className="min-h-screen relative font-sans py-12 md:py-20 px-4">
-      <div className="container mx-auto max-w-4xl relative z-10">
-        {/* Navigation - Top Left */}
-        <div className="mb-8 flex justify-start">
-          <Link
-            href="/"
-            className="group inline-flex items-center text-gray-500 hover:text-primary transition-colors text-sm font-medium"
-          >
-            <div className="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200 transition-all group-hover:scale-110 group-hover:ring-primary/20">
-              <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
-            </div>
-            메인으로 돌아가기
-          </Link>
-        </div>
+    <main className="min-h-screen relative font-sans">
+      {/* Fixed Minimal Header */}
+      <ApplyNavbar />
 
+      <div className="container mx-auto max-w-4xl relative z-10 pt-24 pb-20 px-4">
         {/* Header Content - Centered */}
         <div className="mb-16 text-center space-y-6">
           <div className="inline-block animate-fadeUp">
