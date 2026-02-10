@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,13 @@ export default function Navbar() {
         <nav className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+            <Image
+              src="/likelion.svg"
+              alt="Likelion Logo"
+              width={24}
+              height={24}
+              className="w-6 h-6"
+            />
             <span className="text-lg font-bold tracking-tight text-gray-900">
               충남대학교 <span className="text-primary">멋쟁이사자처럼</span>
             </span>
