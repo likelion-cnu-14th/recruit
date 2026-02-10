@@ -10,10 +10,10 @@ const notoSansKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "Likelion 14th | Vibe Coding",
+  title: "충남대학교 멋쟁이사자처럼 14기",
   description: "아이디어는 가볍게, 구현은 AI와 함께 Vibe 있게! 충남대학교 멋쟁이사자처럼 14기 아기사자 모집",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/likelion.svg",
   },
 };
 
