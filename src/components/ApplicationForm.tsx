@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { applicationFormSchema, type ApplicationFormData } from "@/lib/schema";
@@ -37,12 +38,14 @@ import {
   Trophy,
   Users,
   Target,
-  Rocket
+  Rocket,
+  AlertCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
 export default function ApplicationForm() {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<{
     success: boolean;
@@ -519,16 +522,61 @@ export default function ApplicationForm() {
 
         {submitResult && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={cn(
-              "p-4 rounded-xl text-center font-medium",
-              submitResult.success
-                ? "bg-green-50 text-green-700 border border-green-200"
-                : "bg-red-50 text-red-700 border border-red-200"
-            )}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           >
-            {submitResult.message}
+            <motion.div 
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
+              className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden"
+            >
+              <div className={cn(
+                "p-8 flex flex-col items-center text-center space-y-4",
+                submitResult.success ? "bg-orange-50/50" : "bg-red-50/50"
+              )}>
+                {submitResult.success ? (
+                  <div className="w-32 h-32 relative mb-2">
+                    <img src="/chacha.png" alt="Success" className="w-full h-full object-contain" />
+                  </div>
+                ) : (
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg transform transition-transform hover:scale-105 bg-gradient-to-br from-red-400 to-red-600 text-white">
+                    <AlertCircle className="w-10 h-10" strokeWidth={2.5} />
+                  </div>
+                )}
+                
+                <div className="space-y-2">
+                  <h3 className={cn(
+                    "text-2xl font-bold tracking-tight",
+                    submitResult.success ? "text-gray-900" : "text-red-900"
+                  )}>
+                    {submitResult.success ? "지원서 제출 완료!" : "제출 실패"}
+                  </h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">
+                    {submitResult.message}
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6 bg-gray-50 border-t border-gray-100">
+                <Button 
+                  onClick={() => {
+                    if (submitResult.success) {
+                      router.push("/");
+                    }
+                    setSubmitResult(null);
+                  }}
+                  className={cn(
+                    "w-full h-12 text-lg font-bold rounded-xl transition-all shadow-md hover:shadow-lg",
+                    submitResult.success 
+                      ? "bg-orange-500 hover:bg-orange-600 text-white" 
+                      : "bg-red-600 hover:bg-red-700 text-white"
+                  )}
+                >
+                  {submitResult.success ? "확인" : "다시 시도하기"}
+                </Button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
 
