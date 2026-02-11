@@ -52,11 +52,14 @@ export default function ApplicationForm() {
   const form = useForm<ApplicationFormData>({
     resolver: zodResolver(applicationFormSchema),
     defaultValues: {
+      part: "plan_design",
       partReason: "",
-      collaborationExperience: [],
+      selfIntroduction: "",
+      aiToolExperience: "",
+      activityGoals: "",
       collaborationEssay: "",
-      motivationGoals: [],
-      motivationEssay: "",
+      codingExperience: "",
+      portfolio: "",
       name: "",
       major: "",
       studentNumber: "",
@@ -130,7 +133,7 @@ export default function ApplicationForm() {
                     <FormItem>
                       <FormLabel className="text-gray-700">이름</FormLabel>
                       <FormControl>
-                        <Input placeholder="홍길동" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -143,7 +146,7 @@ export default function ApplicationForm() {
                     <FormItem>
                       <FormLabel className="text-gray-700">학과</FormLabel>
                       <FormControl>
-                        <Input placeholder="컴퓨터공학과" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -156,7 +159,7 @@ export default function ApplicationForm() {
                     <FormItem>
                       <FormLabel className="text-gray-700">학번</FormLabel>
                       <FormControl>
-                        <Input placeholder="202400000" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -169,7 +172,7 @@ export default function ApplicationForm() {
                     <FormItem>
                       <FormLabel className="text-gray-700">학년</FormLabel>
                       <FormControl>
-                        <Input placeholder="3학년" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -182,7 +185,7 @@ export default function ApplicationForm() {
                     <FormItem>
                       <FormLabel className="text-gray-700">연락처</FormLabel>
                       <FormControl>
-                        <Input placeholder="010-0000-0000" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -195,7 +198,7 @@ export default function ApplicationForm() {
                     <FormItem>
                       <FormLabel className="text-gray-700">이메일</FormLabel>
                       <FormControl>
-                        <Input placeholder="name@example.com" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -206,16 +209,109 @@ export default function ApplicationForm() {
           </Card>
         </motion.div>
         
-        {/* Section 2: Part Selection */}
+        {/* Q1: Self Introduction & Motivation */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">1</span>
+                자기소개 및 지원 동기
+              </CardTitle>
+            </div>
+            <CardContent className="p-6 md:p-8 space-y-6">
+              <FormField
+                control={form.control}
+                name="selfIntroduction"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-900 font-semibold text-base">자기소개와 멋쟁이사자처럼 14기에 지원하게 된 동기를 작성해 주세요.</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="자유롭게 본인을 소개하고 지원 동기를 들려주세요."
+                        className="min-h-[200px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Q2: AI Tool Experience */}
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
           <Card className="glass-panel border-0 shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
               <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
                 <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">2</span>
-                활동 희망 파트
+                AI 툴 활용 경험
+              </CardTitle>
+            </div>
+            <CardContent className="p-6 md:p-8 space-y-6">
+              <FormField
+                control={form.control}
+                name="aiToolExperience"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-900 font-semibold text-base">평소 ChatGPT, Gemini 등 생성형 AI를 어떤 식으로 활용하고 있는지 본인만의 구체적인 사례를 들려주세요.</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="구체적인 활용 사례와 경험을 작성해주세요."
+                        className="min-h-[200px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Q3: Activity Goals */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">3</span>
+                활동 목표 및 서비스 아이디어
+              </CardTitle>
+            </div>
+            <CardContent className="p-6 md:p-8 space-y-6">
+              <FormField
+                control={form.control}
+                name="activityGoals"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-900 font-semibold text-base">이번 활동을 통해 본인이 달성하고자 하는 목표와 직접 만들어보고 싶은 서비스 아이디어를 적어주세요.</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="달성하고 싶은 목표와 서비스 아이디어를 자유롭게 작성해주세요."
+                        className="min-h-[200px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Q4: Track Selection */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">4</span>
+                트랙 선택 이유 및 열정
               </CardTitle>
               <CardDescription className="text-gray-500 mt-2 ml-11">
-                가장 열정적으로 참여할 수 있는 파트를 선택해주세요.
+                지원하신 트랙을 선택하고, 선택한 이유와 활동에 임하는 각오를 적어주세요.
               </CardDescription>
             </div>
             <CardContent className="p-6 md:p-8 space-y-8">
@@ -270,10 +366,10 @@ export default function ApplicationForm() {
                 name="partReason"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-900 font-semibold text-base">선택 이유 및 성장 기대 (500자 이내)</FormLabel>
+                    <FormLabel className="text-gray-900 font-semibold text-base">트랙 선택 이유와 매주 활동에 어느 정도의 시간을 할애할 수 있는지 솔직하게 적어주세요.</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="이 파트를 선택한 이유와 활동을 통해 얻고 싶은 성장에 대해 이야기해주세요."
+                        placeholder="이 파트를 선택한 이유와 활동 가능 시간을 작성해주세요."
                         className="min-h-[150px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
                         {...field}
                       />
@@ -286,82 +382,26 @@ export default function ApplicationForm() {
           </Card>
         </motion.div>
 
-        {/* Section 3: Collaboration */}
+        {/* Q5: Collaboration */}
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
           <Card className="glass-panel border-0 shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
               <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
-                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">3</span>
-                협업 경험
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">5</span>
+                협업 및 소통 역량
               </CardTitle>
             </div>
-            <CardContent className="p-6 md:p-8 space-y-8">
-              <FormField
-                control={form.control}
-                name="collaborationExperience"
-                render={() => (
-                  <FormItem>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {[
-                        { id: "club_member", label: "동아리/커뮤니티 부원 활동" },
-                        { id: "club_lead", label: "동아리/커뮤니티 운영 활동" },
-                        { id: "study", label: "스터디/학회 참여" },
-                        { id: "tutoring", label: "과외/멘토링 경험" },
-                      ].map((item) => (
-                        <FormField
-                          key={item.id}
-                          control={form.control}
-                          name="collaborationExperience"
-                          render={({ field }) => {
-                            const isChecked = field.value?.includes(item.id);
-                            return (
-                              <FormItem key={item.id} className="space-y-0">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={isChecked}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value, item.id])
-                                        : field.onChange(field.value?.filter((value) => value !== item.id));
-                                    }}
-                                    className="peer sr-only"
-                                  />
-                                </FormControl>
-                                <FormLabel className={cn(
-                                  "flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-orange-50",
-                                  isChecked ? "border-primary bg-orange-50/50" : "border-gray-100 bg-white"
-                                )}>
-                                  <div className={cn(
-                                    "w-5 h-5 rounded border mr-3 flex items-center justify-center transition-colors",
-                                    isChecked ? "bg-primary border-primary text-white" : "border-gray-300"
-                                  )}>
-                                    {isChecked && <CheckCircle2 size={14} />}
-                                  </div>
-                                  <span className={cn("font-medium", isChecked ? "text-primary" : "text-gray-600")}>
-                                    {item.label}
-                                  </span>
-                                </FormLabel>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <CardContent className="p-6 md:p-8 space-y-6">
               <FormField
                 control={form.control}
                 name="collaborationEssay"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-900 font-semibold text-base">협업 경험 에세이 (500자 이내)</FormLabel>
-                    <p className="text-sm text-gray-500 mb-3">협업 과정에서의 역할과 배운 점을 멋쟁이사자처럼 활동에 어떻게 적용할 수 있을까요?</p>
+                    <FormLabel className="text-gray-900 font-semibold text-base">팀 프로젝트나 단체 활동 중 의견 차이가 생겼을 때, 본인만의 방식으로 문제를 해결했던 구체적인 경험을 들려주세요.</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="구체적인 경험을 바탕으로 작성해주세요."
-                        className="min-h-[150px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        placeholder="구체적인 상황, 본인의 행동, 그리고 결과를 포함하여 작성해주세요."
+                        className="min-h-[200px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
                         {...field}
                       />
                     </FormControl>
@@ -373,78 +413,57 @@ export default function ApplicationForm() {
           </Card>
         </motion.div>
 
-        {/* Section 4: Motivation */}
+        {/* Q6: Coding Experience */}
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
           <Card className="glass-panel border-0 shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
               <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
-                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">4</span>
-                지원 동기 및 목표
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">6</span>
+                코딩 및 결과물 제작 경험
               </CardTitle>
             </div>
-            <CardContent className="p-6 md:p-8 space-y-8">
+            <CardContent className="p-6 md:p-8 space-y-6">
               <FormField
                 control={form.control}
-                name="motivationGoals"
-                render={() => (
+                name="codingExperience"
+                render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-900 font-semibold mb-4 block">얻어가고 싶은 가치 (최대 2개 선택)</FormLabel>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                      {[
-                        { id: "service", label: "나만의 서비스 제작" },
-                        { id: "community", label: "개발자 커뮤니티" },
-                        { id: "hackathon", label: "해커톤 경험" },
-                        { id: "portfolio", label: "포트폴리오 완성" },
-                        { id: "startup", label: "창업 도전" },
-                        { id: "network", label: "전국 네트워크" },
-                      ].map((item) => (
-                        <FormField
-                          key={item.id}
-                          control={form.control}
-                          name="motivationGoals"
-                          render={({ field }) => {
-                            const isChecked = field.value?.includes(item.id);
-                            return (
-                              <FormItem key={item.id} className="space-y-0">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={isChecked}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value, item.id])
-                                        : field.onChange(field.value?.filter((value) => value !== item.id));
-                                    }}
-                                    className="peer sr-only"
-                                  />
-                                </FormControl>
-                                <FormLabel className={cn(
-                                  "flex flex-col items-center justify-center p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-orange-50 h-full text-center",
-                                  isChecked ? "border-primary bg-orange-50/50" : "border-gray-100 bg-white"
-                                )}>
-                                  <span className={cn("font-bold transition-colors", isChecked ? "text-primary" : "text-gray-600")}>
-                                    {item.label}
-                                  </span>
-                                </FormLabel>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
-                    </div>
+                    <FormLabel className="text-gray-900 font-semibold text-base">코딩을 통해 목표한 결과물을 제작한 경험이 있다면 기술해 주시고, 없다면 배우기 위해 어떤 노력을 해왔는지 작성해 주세요.</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="프로젝트 경험 또는 학습 노력에 대해 작성해주세요."
+                        className="min-h-[200px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Q7: Portfolio (Optional) */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <Card className="glass-panel border-0 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-50 to-white p-6 border-b border-orange-100">
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center text-gray-900">
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 text-sm font-black">7</span>
+                [선택] 기술 스택 및 증빙 자료
+              </CardTitle>
+            </div>
+            <CardContent className="p-6 md:p-8 space-y-6">
               <FormField
                 control={form.control}
-                name="motivationEssay"
+                name="portfolio"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-900 font-semibold text-base">지원 동기 에세이</FormLabel>
+                    <FormLabel className="text-gray-900 font-semibold text-base">사용해 본 툴(기술)을 적어주시거나, 본인의 노력을 시각적으로 보여줄 수 있는 자료(포트폴리오, 깃허브 등)가 있다면 자유롭게 첨부해 주세요.</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="진정성 있는 이야기를 들려주세요."
-                        className="min-h-[200px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
+                        placeholder={`Github 주소, 포트폴리오 링크, 또는 사용 가능한 기술 스택을 작성해주세요.\n ex) https://github.com/likelion/likelion-14th, Figma, Python, Java, C`}
+                        className="min-h-[150px] resize-none bg-gray-50/50 border-gray-200 focus:bg-white focus:border-primary focus:ring-primary transition-all rounded-xl p-4"
                         {...field}
                       />
                     </FormControl>

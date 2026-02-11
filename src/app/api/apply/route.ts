@@ -4,8 +4,6 @@ import {
   notion,
   getDatabaseId,
   PART_LABELS,
-  COLLABORATION_LABELS,
-  GOAL_LABELS,
 } from "@/lib/notion";
 
 export async function POST(request: Request) {
@@ -52,24 +50,26 @@ export async function POST(request: Request) {
         희망파트: {
           select: { name: PART_LABELS[data.part] || data.part },
         },
-        "파트 선택 이유": {
+        "자기소개 및 지원 동기": {
+          rich_text: [{ text: { content: data.selfIntroduction } }],
+        },
+        "AI 툴 활용 경험": {
+          rich_text: [{ text: { content: data.aiToolExperience } }],
+        },
+        "활동 목표 및 서비스 아이디어": {
+          rich_text: [{ text: { content: data.activityGoals } }],
+        },
+        "트랙 선택 이유": {
           rich_text: [{ text: { content: data.partReason } }],
         },
-        "협업 경험": {
-          multi_select: data.collaborationExperience.map((id) => ({
-            name: COLLABORATION_LABELS[id] || id,
-          })),
-        },
-        "협업 에세이": {
+        "협업 경험 에세이": {
           rich_text: [{ text: { content: data.collaborationEssay } }],
         },
-        "지원 목표": {
-          multi_select: data.motivationGoals.map((id) => ({
-            name: GOAL_LABELS[id] || id,
-          })),
+        "코딩 및 결과물 제작 경험": {
+          rich_text: [{ text: { content: data.codingExperience } }],
         },
-        "지원 동기 에세이": {
-          rich_text: [{ text: { content: data.motivationEssay } }],
+        "기술 스택 및 포트폴리오": {
+          rich_text: [{ text: { content: data.portfolio || "" } }],
         },
       },
     });

@@ -1,39 +1,50 @@
 import * as z from "zod";
 
 export const applicationFormSchema = z.object({
-  // Section 1: Part Selection
+  // Section 1: Self Introduction & Motivation
+  selfIntroduction: z
+    .string()
+    .min(10, { message: "10자 이상 작성해주세요." })
+    .max(1000, { message: "1000자 이내로 작성해주세요." }),
+
+  // Section 2: AI Tool Experience
+  aiToolExperience: z
+    .string()
+    .min(10, { message: "10자 이상 작성해주세요." })
+    .max(1000, { message: "1000자 이내로 작성해주세요." }),
+
+  // Section 3: Activity Goals & Service Ideas
+  activityGoals: z
+    .string()
+    .min(10, { message: "10자 이상 작성해주세요." })
+    .max(1000, { message: "1000자 이내로 작성해주세요." }),
+
+  // Section 4: Track Selection & Passion
   part: z.enum(["plan_design", "frontend", "backend"] as const),
   partReason: z
     .string()
     .min(10, { message: "10자 이상 작성해주세요." })
-    .max(500, { message: "500자 이내로 작성해주세요." }),
+    .max(1000, { message: "1000자 이내로 작성해주세요." }),
 
-  // Section 2: Collaboration Experience
-  collaborationExperience: z
-    .array(z.string())
-    .refine((value) => value.length > 0, {
-      message: "최소 1개 이상의 협업 경험을 선택해주세요.",
-    }),
+  // Section 5: Collaboration & Communication
   collaborationEssay: z
     .string()
     .min(10, { message: "10자 이상 작성해주세요." })
-    .max(500, { message: "500자 이내로 작성해주세요." }),
+    .max(1000, { message: "1000자 이내로 작성해주세요." }),
 
-  // Section 3: Motivation
-  motivationGoals: z
-    .array(z.string())
-    .refine((value) => value.length > 0, {
-      message: "최소 1개 이상의 목표를 선택해주세요.",
-    })
-    .refine((value) => value.length <= 2, {
-      message: "최대 2개까지만 선택할 수 있어요.",
-    }),
-  motivationEssay: z
+  // Section 6: Coding & Output Creation
+  codingExperience: z
     .string()
-    .min(10, { message: "지원 동기를 자세히 적어주세요." })
-    .max(2000, { message: "2000자 이내로 작성해주세요." }),
+    .min(10, { message: "10자 이상 작성해주세요." })
+    .max(1000, { message: "1000자 이내로 작성해주세요." }),
 
-  // Section 4: Personal Info
+  // Section 7: Tech Stack & Portfolio (Optional)
+  portfolio: z
+    .string()
+    .max(1000, { message: "1000자 이내로 작성해주세요." })
+    .optional(),
+
+  // Personal Info (Preserved)
   name: z.string().min(2, { message: "이름을 입력해주세요." }),
   major: z.string().min(1, { message: "소속 학과를 입력해주세요." }),
   studentNumber: z.string().min(1, { message: "학번을 입력해주세요." }),
