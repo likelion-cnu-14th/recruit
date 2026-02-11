@@ -61,6 +61,7 @@ export default function ApplicationForm() {
       codingExperience: "",
       portfolio: "",
       name: "",
+      gender: "male",
       major: "",
       studentNumber: "",
       grade: "",
@@ -141,10 +142,40 @@ export default function ApplicationForm() {
                 />
                 <FormField
                   control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="text-gray-700">성별</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex space-x-4"
+                        >
+                          <FormItem className="flex items-center space-x-2 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="male" />
+                            </FormControl>
+                            <FormLabel className="font-normal text-gray-700">남</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-2 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="female" />
+                            </FormControl>
+                            <FormLabel className="font-normal text-gray-700">여</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="major"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-700">학과</FormLabel>
+                      <FormLabel className="text-gray-700">학과 (부/복수전공 포함)</FormLabel>
                       <FormControl>
                         <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
@@ -171,9 +202,20 @@ export default function ApplicationForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-gray-700">학년</FormLabel>
-                      <FormControl>
-                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
-                      </FormControl>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-white border-gray-200 focus:border-primary h-12">
+                            <SelectValue placeholder="학년을 선택해주세요" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-white">
+                          <SelectItem value="1학년">1학년</SelectItem>
+                          <SelectItem value="2학년">2학년</SelectItem>
+                          <SelectItem value="3학년">3학년</SelectItem>
+                          <SelectItem value="4학년">4학년</SelectItem>
+                          <SelectItem value="5학년 이상">5학년 이상</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -185,7 +227,7 @@ export default function ApplicationForm() {
                     <FormItem>
                       <FormLabel className="text-gray-700">연락처</FormLabel>
                       <FormControl>
-                        <Input placeholder="" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
+                        <Input placeholder="010-1234-5678" className="bg-white border-gray-200 focus:border-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -46,6 +46,7 @@ export const applicationFormSchema = z.object({
 
   // Personal Info (Preserved)
   name: z.string().min(2, { message: "이름을 입력해주세요." }),
+  gender: z.enum(["male", "female"]),
   major: z.string().min(1, { message: "소속 학과를 입력해주세요." }),
   studentNumber: z.string().min(1, { message: "학번을 입력해주세요." }),
   grade: z.string().min(1, { message: "학년을 입력해주세요." }),

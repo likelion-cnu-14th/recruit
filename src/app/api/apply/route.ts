@@ -32,6 +32,9 @@ export async function POST(request: Request) {
         이름: {
           title: [{ text: { content: data.name } }],
         },
+        성별: {
+          select: { name: data.gender === "male" ? "남" : "여" },
+        },
         학과: {
           rich_text: [{ text: { content: data.major } }],
         },
