@@ -4,6 +4,7 @@ import Tracks from '@/components/Tracks';
 import Benefits from '@/components/Benefits';
 
 import ActivityTimeline from '@/components/ActivityTimeline';
+import ActivityGallery from '@/components/ActivityGallery';
 import Footer from '@/components/Footer';
 import FadeIn from '@/components/FadeIn';
 import Navbar from '@/components/Navbar';
@@ -41,6 +42,13 @@ export default function Home() {
       <div id="activity" className="scroll-mt-20">
         <FadeIn>
           <ActivityTimeline />
+        </FadeIn>
+      </div>
+
+      {/* Activity Gallery Section */}
+      <div className="scroll-mt-20">
+        <FadeIn>
+          <ActivityGallery />
         </FadeIn>
       </div>
 
