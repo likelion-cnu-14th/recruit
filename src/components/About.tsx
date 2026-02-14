@@ -20,7 +20,7 @@ export default function About() {
         14기 멋사, <span className="bg-gradient-to-br from-[#FF9E0B] to-[#FF5F0B] bg-clip-text text-transparent">무엇이 다른가요?</span>
       </h2>
       
-      <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2">
         {features.map((feature, index) => (
           <div key={index} className="group relative rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-2 hover:border-primary/30 hover:bg-gray-50/50 hover:shadow-md">
             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
