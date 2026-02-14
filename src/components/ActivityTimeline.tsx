@@ -35,13 +35,13 @@ export default function ActivityTimeline() {
       
       <div className="relative mx-auto max-w-4xl px-4 py-8">
         {/* Vertical Line */}
-        <div className="absolute left-8 top-0 h-full w-0.5 bg-gradient-to-b from-primary/20 via-primary to-primary/20 md:left-1/2 md:-translate-x-1/2"></div>
+        <div className="absolute left-12 top-0 h-full w-0.5 -translate-x-1/2 bg-gradient-to-b from-primary/20 via-primary to-primary/20 md:left-1/2"></div>
 
         {activities.map((item, index) => (
           <div key={index} className={`relative mb-16 flex flex-col md:flex-row md:items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
              
             {/* Timeline Dot */}
-            <div className="absolute left-8 top-0 z-10 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-white ring-4 ring-primary/20 md:left-1/2">
+            <div className="absolute left-8 top-8 z-10 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-white ring-4 ring-primary/20 md:left-1/2">
                <div className="h-3 w-3 rounded-full bg-primary shadow-lg shadow-primary/50"></div>
             </div>
             
