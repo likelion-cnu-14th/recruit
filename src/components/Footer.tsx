@@ -28,7 +28,7 @@ export default function Footer() {
             href="https://instagram.com/likelion._.cnu" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="group flex items-center gap-2 rounded-full bg-gray-50 px-5 py-2.5 text-sm font-medium text-gray-600 transition-all hover:bg-orange-50 hover:text-orange-600"
+            className="group flex items-center gap-2 rounded-full bg-orange-50 px-5 py-2.5 text-sm font-medium text-orange-500 transition-all hover:bg-orange-50 hover:text-orange-600"
           >
             <Instagram size={18} className="transition-transform group-hover:scale-110" />
             <span>likelion._.cnu</span>
