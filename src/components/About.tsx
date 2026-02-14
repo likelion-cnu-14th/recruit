@@ -1,21 +1,16 @@
-import { Zap, Database, Rocket } from 'lucide-react';
+import { Zap, Rocket } from 'lucide-react';
 
 export default function About() {
   const features = [
     {
       icon: <Zap size={24} />,
-      title: "바이브 코딩(AI 활용 개발)의 정점",
-      description: "복잡한 코드 작성은 AI에게 맡기고, 여러분은 서비스의 본질과 사용자 경험에 집중합니다. 비전공자도 8주 안에 실제 서비스를 완성할 수 있습니다."
-    },
-    {
-      icon: <Database size={24} />,
-      title: "서버 코딩 없는 '백엔드 아키텍처'",
-      description: "지루한 서버 구축 과정은 생략합니다. 강력한 인프라 도구를 활용해 데이터 설계와 보안, 그리고 서비스 안정성에 집중하는 '현대적인 백엔드'를 경험합니다."
+      title: "Agentic 코딩",
+      description: "NextJS, Supabase, Vercel 기반으로 다양한 AI를 활용하여 빠르게 프로덕트를 완성합니다. Context Engineering, MCP 등을 사용하여 AI를 더 효율적으로 활용합니다."
     },
     {
       icon: <Rocket size={24} />,
-      title: "진짜 '내 서비스' 배포·운영 경험",
-      description: "단순한 과제 제출로 끝내지 않습니다. 실제로 돌아가는 웹/앱 서비스를 배포하여 사용자를 만나고, 데이터를 통해 서비스를 개선하는 '운영의 가치'를 배웁니다."
+      title: "서비스 배포 및 운영",
+      description: "단순히 아이디어만 발표하고 끝나는 프로젝트가 아닌 실제 서비스를 배포 및 운영합니다. 직접 사용자의 의견을 듣고 서비스를 개선하는 경험을 할 수 있습니다."
     }
   ];
 
@@ -25,14 +20,14 @@ export default function About() {
         14기 멋사, <span className="bg-gradient-to-br from-[#FF9E0B] to-[#FF5F0B] bg-clip-text text-transparent">무엇이 다른가요?</span>
       </h2>
       
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
+      <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
         {features.map((feature, index) => (
           <div key={index} className="group relative rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-2 hover:border-primary/30 hover:bg-gray-50/50 hover:shadow-md">
             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
               {feature.icon}
             </div>
             <h3 className="mb-4 text-2xl font-bold text-gray-900">{feature.title}</h3>
-            <p className="leading-relaxed text-gray-600">{feature.description}</p>
+            <p className="leading-relaxed text-gray-600 break-keep">{feature.description}</p>
           </div>
         ))}
       </div>
